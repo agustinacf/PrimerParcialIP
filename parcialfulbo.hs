@@ -83,7 +83,7 @@ aplanar ((a,b):xs) = a : b : aplanar xs
 pertenece :: String -> [String] -> Bool
 pertenece x [] = False 
 pertenece x (y:ys) | x == y = True
-                     | otherwise = pertenece x ys   
+                   | otherwise = pertenece x ys   
 
 hayRepetidos :: [String] -> Bool
 hayRepetidos [] = False
