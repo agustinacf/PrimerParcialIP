@@ -29,9 +29,10 @@
 -----------------------------------------------------------------------------------------------------------------------------------------------------------
 
 relacionesValidas :: [(String, String)] -> Bool
+relacionesValidas [] = True
 relacionesValidas ((x1,x2):[]) = True
 relacionesValidas ((x1,x2):y:ys) | esIgual x1 x2 || pertenece x1 y && pertenece x2 y || pertenece2 (x1,x2) (y:ys) = False
-                                 | otherwise = relacionesValidas ((x1,x2):ys) 
+                                 | otherwise = relacionesValidas (y:ys) 
 
 esIgual :: String -> String -> Bool
 esIgual x1 x2 | x1 == x2 = True
@@ -72,18 +73,31 @@ eliminarRepetidos (x:xs) | pertenece3 x xs = [x] ++ eliminarRepetidos(quitarTodo
                          | otherwise = [x] ++ eliminarRepetidos xs   
 
 -----------------------------------------------------------------------------------------------------------------------------------------------------------
+
 amigosDe :: String -> [(String, String)] -> [String]
 amigosDe _ [] = []
-amigosDe elem ((x1,x2):xs) | pertenece elem (x1,x2) = [x1,x2] ++ amigosDe elem xs
-                           | otherwise = amigosDe elem xs   
-
-pertenece4 :: String -> [(String, String)] -> Bool
-pertenece4 x [] = False
-pertenece4 x ((y1,y2):ys) | pertenece x (y1,y2) = True
-                          | otherwise = pertenece4 x ys
+amigosDe elem ((x1,x2):xs) | elem == x1 = [x2] ++ amigosDe elem xs
+                           | elem == x2 = [x1] ++ amigosDe elem xs 
+                           | otherwise = amigosDe elem xs
 
 -----------------------------------------------------------------------------------------------------------------------------------------------------------
 
-personaConMasAmigos :: [(String, String)] -> String
-personaConMasAmigos [] = []
-personaConMasAmigos (x:xs) = (aplanar(x:xs))
+personaConMasAmigos :: [(String, String)] -> String 
+personaConMasAmigos relaciones =  personaConMasAmigosAux personasDeRelacion (cantidadDeAmigosDePersonas personasDeRelacion relaciones) 
+                                    where personasDeRelacion = personas relaciones
+
+longitud :: [t] -> Int
+longitud [] = 0
+longitud (x:xs) = 1 + longitud xs
+
+cantidadDeAmigosDePersonas :: [String] -> [(String, String)] -> [Int]
+cantidadDeAmigosDePersonas [] _ = []
+cantidadDeAmigosDePersonas (p1:ps) relaciones = longitud (amigosDe p1 relaciones) : pasoRecursivo
+                                                where pasoRecursivo = cantidadDeAmigosDePersonas ps relaciones
+--p1:persona 1, ps:el resto de personas
+
+personaConMasAmigosAux :: [String] -> [Int] -> String
+personaConMasAmigosAux [p1] _ = p1
+personaConMasAmigosAux (p1:p2:ps) (c1:c2:cs) | c1 > c2 = personaConMasAmigosAux (p1:ps) (c1:cs)
+                                             | otherwise = personaConMasAmigosAux (p2:ps) (c2:cs)   
+--c1:cantidad de amigos 1, c2:cantidad de amigos 2
