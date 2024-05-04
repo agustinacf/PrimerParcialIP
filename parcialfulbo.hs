@@ -78,19 +78,19 @@ sumarTodosGolesGoleadores (x:xs) = x + sumarTodosGolesGoleadores xs
 --2)
 aplanar :: [(String, String)] -> [String]
 aplanar [] = []
-aplanar ((a:b)xs) = a: b: aplanar xs
+aplanar ((a,b):xs) = a : b : aplanar xs
 
 pertenece :: String -> [String] -> Bool
 pertenece x [] = False 
-pertenece (x:(y:ys)) | x == y = True
-                     | otherwise = pertenece (x:ys)   
+pertenece x (y:ys) | x == y = True
+                     | otherwise = pertenece x ys   
 
 hayRepetidos :: [String] -> Bool
 hayRepetidos [] = False
 hayRepetidos (x:xs) = pertenece x xs || hayRepetidos xs
 
 equiposValidos :: [(String, String)] -> Bool
-equiposValidos xs = not hayRepetidos(aplanar xs)
+equiposValidos xs = not (hayRepetidos(aplanar xs))
 
 --hago una funcion que una las tuplas (aplanar), una funcion que me indique si un elemento pertenece o no a una secuencia (pertenece) y otra que diga 
 --si en una secuencia hay elementos repetidos (hayRepetidos), luego implemento todo en la funcion equiposValidos diciendo que si no hay elementos 
@@ -103,8 +103,19 @@ division :: Int -> Int -> Float
 division a b = (fromIntegral a) / (fromIntegral b)
 
 goles :: String -> [(String, String)] -> [Int] -> Int
-j ((e:g):es) (c:cs) | j == g = c
-                    | otherwise = goles j es cs
+goles j ((e,g):es) (c:cs) | j == g = c   --j:jugador, e:equipo, g:goleador, c:gol de jugador
+                          | otherwise = goles j es cs
 
 porcentajeDeGoles :: String -> [(String, String)] -> [Int] -> Float
-porcentajeDeGoles j es gs = division (goles j es gs) (sumarTodosGolesGoleadores gs)
+porcentajeDeGoles j es gs = division (goles j es gs) (sumarTodosGolesGoleadores gs)   --es:equipos, gs: goleadores
+
+--la funcion goles busca al jugador por cada secuencia de equipo y goleador, luego en porcentaje de goles se hace una division entre los goles
+--del goleador y la suma de todos los goles de los goleadores
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------
+
+--4)
+botinDeOro :: [(String, String)] -> [Int] -> String
+botinDeOro [(_,j)] [_] = j   --en una lista vacia, j es el maximo
+botinDeOro (x:x2:xs) (g:g2:gs) | g > g2 = botinDeOro (x:xs) (g:gs)   --cada x es una lista de [(Equipo,goleador)] y cada g son los goles
+                               | otherwise = botinDeOro (x2:xs) (g2:gs) 
