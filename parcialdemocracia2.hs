@@ -90,7 +90,7 @@ formulasValidas ((x,y):xs) = not (hayRepetidos (aplanar ((x,y):xs)))
 --sabemos que un nombre debe aparecer una unica vez, por lo que implemento la funcion aplanar, para que me de una secuencia de strings con todos los
 --nombres de las tuplas. implemento la funcion hayRepetidos que me indica si en una secuencia de strings hay elementos repetidos.
 --en la funcion formulasValidas indico que si NO hay repetidos las formulas son validas (ya que not false = true) y si hay elementos repetidos, las
---formulas no son validas (ya que not true = false)
+--formulas no son validas (ya que not true = false).
 
 ----------------------------------------------------------------------------------------------------------------------------------------------------------
 
