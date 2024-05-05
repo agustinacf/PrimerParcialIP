@@ -95,9 +95,12 @@ cantidadDeAmigosDePersonas [] _ = []
 cantidadDeAmigosDePersonas (p1:ps) relaciones = longitud (amigosDe p1 relaciones) : pasoRecursivo
                                                 where pasoRecursivo = cantidadDeAmigosDePersonas ps relaciones
 --p1:persona 1, ps:el resto de personas
+--dada una lista de nombres y una lista de relaciones, el resultado da el numero de amigos de cada persona.
 
 personaConMasAmigosAux :: [String] -> [Int] -> String
 personaConMasAmigosAux [p1] _ = p1
 personaConMasAmigosAux (p1:p2:ps) (c1:c2:cs) | c1 > c2 = personaConMasAmigosAux (p1:ps) (c1:cs)
                                              | otherwise = personaConMasAmigosAux (p2:ps) (c2:cs)   
 --c1:cantidad de amigos 1, c2:cantidad de amigos 2
+--dada una lista de personas y una lista con la cantidad de amigos de cada persona, da como resultado la persona con mayor cantidad de amigos
+--de la lista.

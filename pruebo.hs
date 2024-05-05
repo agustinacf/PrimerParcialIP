@@ -1,6 +1,8 @@
-sumaDeVotos :: [Int] -> Int
-sumaDeVotos [] = 0 
-sumaDeVotos (x:xs) = x + sumaDeVotos xs
+pertenece :: String -> [String] -> Bool
+pertenece _ [] = False
+pertenece x (y:xs) | x == y = True
+                   | otherwise = pertenece x xs
 
-votosEnBlanco :: [(String, String)] -> [Int] -> Int -> Int
-votosEnBlanco ((p,vi):ps) (x:xs) totales = totales - sumaDeVotos (x:xs) 
+hayRepetidos :: [String] -> Bool
+hayRepetidos [] = False
+hayRepetidos (x:xs) = pertenece x xs || hayRepetidos xs
