@@ -39,7 +39,6 @@ esIgual x1 x2 | x1 == x2 = True
               | otherwise = False  
 
 pertenece :: String -> (String, String) -> Bool
-pertenece x [] = False
 pertenece x (y1,y2) | x == y1 || x == y2 = True
                     | otherwise = False
 
