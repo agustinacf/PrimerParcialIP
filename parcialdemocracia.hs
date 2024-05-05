@@ -32,8 +32,7 @@
 --problema formulasInvalidas (formulas: seq⟨String x String⟩) : Bool {
 -- requiere: {True}
 -- asegura: {(res = true) <=> formulas contiene un candidato se propone para presidente y vicepresidente en la misma fórmula; o algún candidato 
---se postula para presidente o vice en más de una fórmula 
---}
+--se postula para presidente o vice en más de una fórmula}
 --________________
 
 --3) Porcentaje de Votos [3 puntos]
@@ -60,3 +59,62 @@
 
 ----------------------------------------------------------------------------------------------------------------------------------------------
 
+division :: Int -> Int -> Float
+division a b = (fromIntegral a) / (fromIntegral b)
+
+sumaDeVotos :: [Int] -> Int
+sumaDeVotos [] = 0
+sumaDeVotos (v:vs) = v + sumaDeVotos vs
+
+porcentajeDeVotosAfirmativos :: [(String, String)] -> [Int] -> Int -> Float
+porcentajeDeVotosAfirmativos ((p,vi):ps) (v:vs) votostotales = (division (sumaDeVotos (v:vs)) votostotales) * 100
+
+--hago una division (porcentajeDeVotosAfirmativos) entre la suma de votos asignados a una formula presidencial y los votos totales. luego a esa
+--division la multiplico por 100.
+
+----------------------------------------------------------------------------------------------------------------------------------------------
+
+aplanar :: [(String, String)] -> [String]
+aplanar [] = []
+aplanar ((x,y):xs) = [x] ++ [y] ++ aplanar xs
+
+pertenece :: String -> [String] -> Bool
+pertenece x [] = False
+pertenece x (y:ys) | x == y = True
+                   | otherwise = pertenece x ys 
+
+hayRepetidos :: [String] -> Bool
+hayRepetidos [] = False 
+hayRepetidos (x:xs) = pertenece x xs || hayRepetidos xs
+
+formulasInvalidas :: [(String, String)] -> Bool
+formulasInvalidas [] = False
+formulasInvalidas (p:ps) = hayRepetidos(aplanar (p:ps))
+
+--aplano la secuencia de tuplas de string (aplanar), para luego analizar si hay elementos repetidos (hayRepetidos).
+--el resultado de formulasInvalidas es true si hay elementos repetidos (ya que la formula seria invalida) y es false si no hay 
+--elementos repetidos (ya que la formula seria valida).
+
+----------------------------------------------------------------------------------------------------------------------------------------------
+
+votosVice :: String -> [(String, String)] -> [Int] -> Int
+votosVice vice ((p,vi):ps) (v:vs) | vice == vi = v  
+                                  | otherwise = votosVice vice ps vs  
+
+porcentajeDeVotos :: String -> [(String, String)] -> [Int] -> Float
+porcentajeDeVotos vice (p:ps) (v:vs) = division (votosVice vice (p:ps) (v:vs)) (sumaDeVotos (v:vs))
+
+--hago una funcion (votosVice) que encuentre la cantidad de votos del vice a partir de la secuencia de tuplas de cada candidato y la lista
+--con los votos de cada formula presidencial.
+--la funcion porcentajeDeVotos divide los votos del vice por la suma de votos asignadas a una formula presidencial, usando para este 
+--ultimo la funcion sumaDeVotos del ejercicio 1.
+
+----------------------------------------------------------------------------------------------------------------------------------------------
+
+menosVotado :: [(String, String)] -> [Int] -> String
+menosVotado [(p,_)] [_] = p 
+menosVotado ((p1,vi1):(p2,vi2):ps) (v1:v2:vs) | v1 > v2 = menosVotado ((p1,vi1):ps) (v1:vs)
+                                              | otherwise = menosVotado ((p2,vi2):ps) (v2:vs)  
+
+--comparo entre dos formulas presidenciales y sus votos. la que sea mayor va a ser evaluada con el resto de las tuplas y votos de sus 
+--correspondientes secuencias.

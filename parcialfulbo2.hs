@@ -92,6 +92,26 @@ equiposValidos :: [(String, String)] -> Bool
 equiposValidos (e:es) = not (hayRepetidos(aplanar(e:es)))   --(e:es):tuplas de equipo y arquero titular
 
 --primero aplano la lista de tuplas, luego implemento una funcion (hayRepetidos) para observar si en la lista hay elementos repetidos, y en la 
---funcion equiposValidos si no hay elementos repetidos, los equipos son validos, en caso contrario los equipos no seran validos
+--funcion equiposValidos si no hay elementos repetidos, los equipos son validos, en caso contrario los equipos no seran validos.
 
 ----------------------------------------------------------------------------------------------------------------------------------------------
+
+division :: Int -> Int -> Float
+division a b = fromIntegral a / fromIntegral b
+
+golesArquero :: String -> [(String, String)] -> [Int] -> Int
+golesArquero arquero ((e,a):es) (g:gs) | arquero == a = g
+									   | otherwise = golesArquero arquero es gs
+--(e,a):(equipo, arquero titular)
+--es:resto de equipos
+--g:goles
+
+porcentajeDeGoles :: String -> [(String, String)] -> [Int] -> Float
+porcentajeDeGoles arquero (e:es) (g:gs) = division (golesArquero arquero (e:es) (g:gs)) (sumaGoles (g:gs))
+
+----------------------------------------------------------------------------------------------------------------------------------------------
+
+vallaMenosVencida :: [(String, String)] -> [Int] -> String
+vallaMenosVencida [(_,a)] [_] = a 
+vallaMenosVencida (e1:e2:es) (g1:g2:gs) | g1 < g2 = vallaMenosVencida (e1:es) (g1:gs)
+										| otherwise = vallaMenosVencida (e2:es) (g2:gs)	
