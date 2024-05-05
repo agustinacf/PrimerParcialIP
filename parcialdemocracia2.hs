@@ -64,6 +64,9 @@ sumaDeVotos (x:xs) = x + sumaDeVotos xs
 votosEnBlanco :: [(String, String)] -> [Int] -> Int -> Int
 votosEnBlanco _ (x:xs) totales = totales - sumaDeVotos (x:xs)   --(x:xs) son los votos afirmativos
 
+--hago una funcion que sume todos los votos asignados a los distintos candidatos (sumaDeVotos) y luego, en la funcion votosEnBlanco, me da igual
+--la secuencia de tuplas de candidatos, y le resto a los votos totales (totales) los votos asignados a los candidatos (sumaDeVotos (x:xs)).
+
 ----------------------------------------------------------------------------------------------------------------------------------------------------------
 
 aplanar :: [(String, String)] -> [String]
@@ -84,6 +87,11 @@ formulasValidas :: [(String, String)] -> Bool
 formulasValidas [] = False
 formulasValidas ((x,y):xs) = not (hayRepetidos (aplanar ((x,y):xs)))
 
+--sabemos que un nombre debe aparecer una unica vez, por lo que implemento la funcion aplanar, para que me de una secuencia de strings con todos los
+--nombres de las tuplas. implemento la funcion hayRepetidos que me indica si en una secuencia de strings hay elementos repetidos.
+--en la funcion formulasValidas indico que si NO hay repetidos las formulas son validas (ya que not false = true) y si hay elementos repetidos, las
+--formulas no son validas (ya que not true = false)
+
 ----------------------------------------------------------------------------------------------------------------------------------------------------------
 
 division :: Int -> Int -> Float
@@ -96,9 +104,18 @@ votosPresidente presidente ((p,vi):ps) (v:vs) | presidente == p = v   --(p,vi)= 
 porcentajeDeVotos :: String -> [(String, String)] -> [Int] -> Float 
 porcentajeDeVotos presidente ((p,vi):ps) (v:vs) = division (votosPresidente presidente ((p,vi):ps) (v:vs)) (sumaDeVotos (v:vs))
 
+--la funcion division fue dada en la consigna. implemento la funcion votosPresidente que me indica, dando el nombre de un presidente, cual fue la
+--cantidad de votos que obtuvo.
+--en la funcion porcentajeDeVotos divido la cantidad de votos del presidente con la suma de los votos asignados a una tupla, usando la funcion
+--sumaDeVotos del primer ejercicio.
+
 ----------------------------------------------------------------------------------------------------------------------------------------------------------
 
 proximoPresidente :: [(String, String)] -> [Int] -> String
 proximoPresidente [(p,_)] [_] = p 
 proximoPresidente (p1:p2:ps) (v1:v2:vs) | v1 > v2 = proximoPresidente (p1:ps) (v1:vs)
                                         | otherwise = proximoPresidente (p2:ps) (v2:vs)
+
+--en la funcion proximoPresidente tenemos como caso base que el proximo presidente en una lista de una sola tupla y en una lista con un solo elemento
+--sera p. luego, si los votos 1 son mayores que los votos 2, se hace la llamada recursiva con la primer tupla de candidatos y la primer cantidad de
+--votos, en caso contrario se hara la llamada recursiva con la segunda tupla de candidatos y la segunda cantidad de votos.
