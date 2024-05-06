@@ -17,6 +17,14 @@ cantidadApariciones c (x:xs) | c == x = 1 + cantidadApariciones c xs
 ----------------------------------------------------------------------------------------------------------------------------------------------
 
 laQueMasHayQueCodificar :: [Char] -> [(Char, Char)] -> Char
+laQueMasHayQueCodificar frase _ = masRepeticiones frase frase
+
+masRepeticiones :: [Char] -> [Char] -> Char
+masRepeticiones [x] _ = x 
+masRepeticiones (x:y:xs) frase | cantidadApariciones x frase > cantidadApariciones y frase = masRepeticiones (x:xs) frase
+                               | cantidadApariciones x frase == cantidadApariciones y frase = masRepeticiones (x:xs) frase
+                               | otherwise = masRepeticiones (y:xs) frase  
+
 
 
 
