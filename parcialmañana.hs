@@ -25,7 +25,12 @@ masRepeticiones (x:y:xs) frase | cantidadApariciones x frase > cantidadAparicion
                                | cantidadApariciones x frase == cantidadApariciones y frase = masRepeticiones (x:xs) frase
                                | otherwise = masRepeticiones (y:xs) frase  
 
+perteneceMapeo :: Char -> [Char] -> [(Char, Char)]
 
+
+----------------------------------------------------------------------------------------------------------------------------------------------
+
+codificarFrase :: [Char] -> [(Char, Char)] 
 
 
 
