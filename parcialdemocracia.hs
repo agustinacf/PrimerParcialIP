@@ -113,8 +113,8 @@ porcentajeDeVotos vice (p:ps) (v:vs) = division (votosVice vice (p:ps) (v:vs)) (
 
 menosVotado :: [(String, String)] -> [Int] -> String
 menosVotado [(p,_)] [_] = p 
-menosVotado ((p1,vi1):(p2,vi2):ps) (v1:v2:vs) | v1 > v2 = menosVotado ((p1,vi1):ps) (v1:vs)
-                                              | otherwise = menosVotado ((p2,vi2):ps) (v2:vs)  
+menosVotado ((p1,vi1):(p2,vi2):ps) (v1:v2:vs) | v1 > v2 = menosVotado ((p2,vi2):ps) (v2:vs)
+                                              | otherwise = menosVotado ((p1,vi1):ps) (v1:vs)  
 
 --comparo entre dos formulas presidenciales y sus votos. la que sea mayor va a ser evaluada con el resto de las tuplas y votos de sus 
 --correspondientes secuencias.
