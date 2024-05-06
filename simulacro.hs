@@ -28,24 +28,24 @@
 
 -----------------------------------------------------------------------------------------------------------------------------------------------------------
 
-relacionesValidas :: [(String, String)] -> Bool
+relacionesValidas :: [(String, String)] -> Bool 
 relacionesValidas [] = True
-relacionesValidas ((x1,x2):[]) = True
-relacionesValidas ((x1,x2):y:ys) | esIgual x1 x2 || pertenece x1 y && pertenece x2 y || pertenece2 (x1,x2) (y:ys) = False
-                                 | otherwise = relacionesValidas (y:ys) 
+relacionesValidas (unaAmistad:masLista) = not (mismaPersona unaAmistad) && not (amistadRepetida unaAmistad masLista) && pasoRecursivo
+                                        where pasoRecursivo = relacionesValidas masLista
 
-esIgual :: String -> String -> Bool
-esIgual x1 x2 | x1 == x2 = True
-              | otherwise = False  
+mismaPersona:: (String, String) -> Bool
+mismaPersona (a,b) = a == b
 
-pertenece :: String -> (String, String) -> Bool
-pertenece x (y1,y2) | x == y1 || x == y2 = True
-                    | otherwise = False
+amistadRepetida :: (String, String) -> [(String, String)] -> Bool
+amistadRepetida _ [] = False
+amistadRepetida a (b:elResto) = mismaAmistad a b || amistadRepetida a elResto
+                                where mismaAmistad (a,b) (c,d) = (a==c && b == d) || (a==d && b == c)  
 
-pertenece2 :: (String, String) -> [(String, String)] -> Bool
-pertenece2 (x1,x2) [] = False
-pertenece2 (x1,x2) (y:ys) | pertenece x1 y && pertenece x2 y = True
-                          | otherwise = pertenece2 (x1,x2) ys   
+--la funcion mismaPersona indica si en una tupla, las dos componentes son iguales, en este caso representando que la misma persona se repite dos
+--veces.
+--la funcion amistadRepetida indica si dos tuplas (a,b) y (c,d) tienen las mismas componentes, caso contrario se hace la llamada recursiva de a
+--con el resto de las tuplas.
+--la funcion relacionesValidas corrobora que si no hay tuplas con la misma persona o tuplas repetidas, enntonces las relaciones son validas.
 
 -----------------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -57,10 +57,10 @@ aplanar :: [(String, String)] -> [String]
 aplanar [] = []
 aplanar ((x,y):ys) = [x] ++ [y] ++ aplanar ys
 
-pertenece3 :: String -> [String] -> Bool
-pertenece3 x [] = False
-pertenece3 x (y:ys) | x == y = True
-                    | otherwise = pertenece3 x ys
+pertenece :: String -> [String] -> Bool
+pertenece x [] = False
+pertenece x (y:ys) | x == y = True
+                    | otherwise = pertenece x ys
 
 quitarTodos :: String -> [String] -> [String]
 quitarTodos _ [] = []
@@ -69,8 +69,12 @@ quitarTodos elem (x:xs) | elem == x = quitarTodos elem xs
 
 eliminarRepetidos :: [String] -> [String]
 eliminarRepetidos [] = []
-eliminarRepetidos (x:xs) | pertenece3 x xs = [x] ++ eliminarRepetidos(quitarTodos x xs) 
+eliminarRepetidos (x:xs) | pertenece x xs = [x] ++ eliminarRepetidos(quitarTodos x xs) 
                          | otherwise = [x] ++ eliminarRepetidos xs   
+
+--se aplana la secuencia de tuplas de string (aplanar), y luego con las funciones pertenece, quitarTodos y eliminarRepetidos se eliminan aquellos
+--nombres que puedan aparecer dos veces en la lista de strings.
+--en la funcion personas se aplica la funcion eliminarRepetidos a la secuencia de tuplas de strings aplanada (con aplanar). 
 
 -----------------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -79,6 +83,10 @@ amigosDe _ [] = []
 amigosDe elem ((x1,x2):xs) | elem == x1 = [x2] ++ amigosDe elem xs
                            | elem == x2 = [x1] ++ amigosDe elem xs 
                            | otherwise = amigosDe elem xs
+
+--si el elemento es igual a x1, el elemento que se suma a la lista de strings es x2 y se realiza el paso recursivo con el resto de las tuplas.
+--si el elemento es igual a x2, el elemento que se suma a la lista de strings es x1 y se realiza el paso recursivo con el resto de las tuplas.
+--si elemento no es igual a ninguna componente de la primer tupla, se realiza el paso recursivo con el resto de tuplas de la secuencia.
 
 -----------------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -104,3 +112,9 @@ personaConMasAmigosAux (p1:p2:ps) (c1:c2:cs) | c1 > c2 = personaConMasAmigosAux 
 --c1:cantidad de amigos 1, c2:cantidad de amigos 2
 --dada una lista de personas y una lista con la cantidad de amigos de cada persona, da como resultado la persona con mayor cantidad de amigos
 --de la lista.
+
+--en cantidadDeAmigosDePersonas calculo la longitud de la lista de amigosDe p1 y las relaciones, y luego aplico el paso recursivo al resto de 
+--personas de la lista con las relaciones.
+--en personaConMasAmigosAux, si la cantidad de amigos 1 es mayor a la cantidad de amigos 2, realizo el paso recursivo con p1 y el resto de las
+--personas y con c1 y el resto de la cantidad de amigos. en caso contrario, la cantidad de amigos 2 sera mayor a la cantidad de amigos 1
+--y se realizara el paso recursivo con esos dos datos.
