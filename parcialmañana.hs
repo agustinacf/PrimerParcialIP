@@ -21,16 +21,13 @@ laQueMasHayQueCodificar frase _ = masRepeticiones frase frase
 
 masRepeticiones :: [Char] -> [Char] -> Char
 masRepeticiones [x] _ = x 
-masRepeticiones (x:y:xs) frase | cantidadApariciones x frase > cantidadApariciones y frase = masRepeticiones (x:xs) frase
-                               | cantidadApariciones x frase == cantidadApariciones y frase = masRepeticiones (x:xs) frase
+masRepeticiones (x:y:xs) frase | cuantasVecesHayQueCodificar x frase > cuantasVecesHayQueCodificar y frase = masRepeticiones (x:xs) frase
+                               | cuantasVecesHayQueCodificar x frase == cuantasVecesHayQueCodificar y frase = masRepeticiones (x:xs) frase
                                | otherwise = masRepeticiones (y:xs) frase  
-
-perteneceMapeo :: Char -> [Char] -> [(Char, Char)]
-
 
 ----------------------------------------------------------------------------------------------------------------------------------------------
 
-codificarFrase :: [Char] -> [(Char, Char)] 
+
 
 
 
