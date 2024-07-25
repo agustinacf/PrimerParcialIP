@@ -1,3 +1,5 @@
+-- Solucion subida por los profesores al campus
+
 -- Ej1
 aproboMasDeNMaterias :: [(String, [Int])] -> String-> Int ->Bool
 aproboMasDeNMaterias ((p,notas):rs) nombre cant | p == nombre = cantidadAprobada notas > cant
