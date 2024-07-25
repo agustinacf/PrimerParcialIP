@@ -1,7 +1,7 @@
 # RepasoPrimerParcialIP
 
 <p align="center">
-Simulacros y parciales del año 2023. 
+Simulacros y parciales del año 2023 y 2024. 
 <p align="center">
 Éxitos :)
 
