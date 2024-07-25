@@ -1,4 +1,3 @@
-<p align="center">
 # RepasoPrimerParcialIP
 
 <p align="center">
@@ -10,7 +9,7 @@ Simulacros y parciales del año 2023
 ##
 
 <p align="center">
-  <img src="https://gifs.alphacoders.com/gifs/view/147452" align="center" width="500">
+  <img src="https://giffiles.alphacoders.com/147/147452.gif" align="center" width="500">
 </p>
 
 ##
