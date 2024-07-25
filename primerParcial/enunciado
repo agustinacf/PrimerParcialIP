@@ -2,10 +2,10 @@ La Unidad de Tecnologías de la Información (UTI) de nuestra Facultad nos ha en
 se guarda la información de cada alumno, que está representada como una tupla de dos elementos: el primero es el nombre completo del alumno y el segundo una lista 
 con las notas de los finales que rindió.
 
-Para implementar este sistema nos enviaron las siguientes especificaciones y nos pidieron que hagamos el desarrollo enteramente en Haskell, utilizando los tipos requeridos y 
-solamente las funciones que se ven en la materia Introducción a la Programación / Algoritmos y Estructuras de Datos I (FCEyN-UBA).
+Para implementar este sistema nos enviaron las siguientes especificaciones y nos pidieron que hagamos el desarrollo enteramente en Haskell, utilizando los tipos requeridos 
+y solamente las funciones que se ven en la materia Introducción a la Programación / Algoritmos y Estructuras de Datos I (FCEyN-UBA).
 
-Ejercicio 1 (2 puntos)
+Ejercicio 1 (2 puntos) 
 problema aproboMasDeNMaterias (registro: seq⟨seq⟨Char⟩ x seq⟨Z⟩⟩, alumno:seq⟨Char⟩, n: Z) : Bool {
   requiere: {No hay nombres de alumnos repetidos en registro}
   requiere: {Las notas de registro son todas iguales o mayores a cero y menores o iguales a 10}
