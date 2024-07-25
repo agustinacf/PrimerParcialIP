@@ -40,5 +40,30 @@ maximoTuplas ((x1,x2):(y1,y2):xs) | x2 >= y2 = maximoTuplas ((x1,x2):xs)
 masRepetido :: [[Int]] -> Int
 masRepetido (x1:xs) = maximoTuplas(tuplasCantApariciones(aplanar (x1:xs)))
 
--- 3) 
+-- 3)
+listaPorPosicion :: Int -> [[Int]] -> [Int] -- hago una funcion que, dado un indice, encuentre una lista en una lista listas de integers
+listaPorPosicion _ [] = [] 
+listaPorPosicion 1 (x:xs) = x
+listaPorPosicion indice (x:xs) = listaPorPosicion (indice - 1) xs
+
+numeroEnLista :: Int -> [Int] -> Int -- hago una funcion que encuentre un numero en una lista de integers, dado un indice
+numeroEnLista 1 (x:xs) = x
+numeroEnLista indice (x:xs) = numeroEnLista (indice - 1) xs
+
 valoresDeCamino :: [[Int]] -> [(Int, Int)] -> [Int]
+valoresDeCamino (x:xs) [] = []
+valoresDeCamino (x:xs) (y:ys) = [numeroEnLista (snd y) (listaPorPosicion (fst y) (x:xs))] ++ valoresDeCamino (x:xs) ys
+
+-- 4)
+fibonacci :: Int -> Int
+fibonacci 0 = 1
+fibonacci 1 = 1
+fibonacci n = fibonacci (n - 1) + fibonacci (n - 2)
+
+listaFibonacci :: Int -> [Int]
+listaFibonacci 0 = [1]
+listaFibonacci 1 = [1]
+listaFibonacci n = [fibonacci n] ++ listaFibonacci (n - 1)
+
+esCaminoFibo :: [Int] -> Int -> Bool
+esCaminoFibo (x:xs) n = (x:xs) == listaFibonacci n
