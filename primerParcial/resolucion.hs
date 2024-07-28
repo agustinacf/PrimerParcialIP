@@ -1,4 +1,4 @@
--- Solucion subida por los profesores al campus
+-- SOLUCION SUBIDA POR LOS PROFESORES AL CAMPUS
 
 -- Ej1
 aproboMasDeNMaterias :: [(String, [Int])] -> String-> Int ->Bool
